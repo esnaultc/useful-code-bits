@@ -7,7 +7,6 @@ subchunkify <- function(g, name, fig_height=6, fig_width=6) {
   sub_chunk <- paste0("`","``{r subchunk_", name, ", fig.height=", fig_height,
                       ", fig.width=", fig_width, " , echo=FALSE}",
                       "\n(", g_deparsed, ")()", "\n`", "``")
-  #cat('<h3>',name,'</h3>\n')
   cat(knitr::knit(text = knitr::knit_expand(text = sub_chunk), quiet = TRUE))
 }
 
