@@ -2,11 +2,16 @@
 # Dynamically create chunks, which fixes the interactive plots
 # not rendered in loops or functions
 
-subchunkify <- function(g, name, fig_height=6, fig_width=6) {
+subchunkify <- function(g, chunkname, fig_height=6, fig_width=6) {
   g_deparsed <- paste0(deparse(function() {g}), collapse = '')
-  sub_chunk <- paste0("`","``{r subchunk_", name, ", fig.height=", fig_height,
+  sub_chunk <- paste0("`","``{r subchunk_", chunkname, ", fig.height=", fig_height,
                       ", fig.width=", fig_width, " , echo=FALSE}",
                       "\n(", g_deparsed, ")()", "\n`", "``")
   cat(knitr::knit(text = knitr::knit_expand(text = sub_chunk), quiet = TRUE))
 }
 
+# Linkify
+# Convert a file path to a link when Rmd in rendered
+linkify <- function(filepath) {
+  cat(paste0('\n\n[', filepath, '](', filepath, ')\n\n'))
+}
