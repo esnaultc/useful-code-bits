@@ -58,5 +58,22 @@ Verify the installations by running:
   git --help
   nvim --version
 
+Running Linux on a Windows machine
+**********************************
+
+``WSL`` (Windows Subsystem for Linux) can run a full Linux distribution
+without a separate virtual machine.
+
+..code:block:: bash
+
+  wsl --install
+
+Note that after the initial installation, the computer needs a reboot
+before opening ``Ubuntu`` (or another chosen distribution). Then open
+the application, the actual installation will be done, this takes several
+minutes before promtping for the creation of a new account with username and
+password (both independent from the Windows account(s)).
+
+
 
 
