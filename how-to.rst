@@ -64,7 +64,7 @@ Running Linux on a Windows machine
 ``WSL`` (Windows Subsystem for Linux) can run a full Linux distribution
 without a separate virtual machine.
 
-..code-block:: bash
+.. code-block:: bash
 
   wsl --install
 
