@@ -1,0 +1,31 @@
+# load GTF file into python and parse the attributes field
+# --------------------------------------------------------
+
+import gffutils
+import pandas as pd
+
+db = gffutils.create_db(gtf_file_name, ':memory:', disable_infer_transcripts=True, disable_infer_genes=True)
+
+def process_attributes(feature):
+    # Attributes are stored as lists in gffutils
+    return {key: ','.join(value) for key, value in feature.attributes.items()}
+
+# Iterate over all features
+features_data = []
+for feature in db.all_features():
+    # Extract standard GFF columns
+    data = {
+        'seq_id': feature.seqid,
+        'source': feature.source,
+        'type': feature.featuretype,
+        'start': feature.start,
+        'end': feature.end,
+        'score': feature.score,
+        'strand': feature.strand,
+    }
+    # Parse attributes
+    data.update(process_attributes(feature))
+    features_data.append(data)
+
+# Convert the list of dictionaries to a pandas DataFrame
+gtf = pd.DataFrame(features_data)
