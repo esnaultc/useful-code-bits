@@ -10,8 +10,48 @@ subchunkify <- function(g, chunkname, fig_height=6, fig_width=6) {
   cat(knitr::knit(text = knitr::knit_expand(text = sub_chunk), quiet = TRUE))
 }
 
+
 # Linkify
 # Convert a file path to a link when Rmd in rendered
 linkify <- function(filepath) {
   cat(paste0('\n\n[', filepath, '](', filepath, ')\n\n'))
 }
+
+
+# Create log file with path to running R (and thus giving clues as to
+# which conda environment was used if applicable), rmarkdown::render
+# parameters, messages, warnings and errors.
+# Add this chunk at the begining of the Rmd
+
+```{r global_options, include=FALSE}
+# sets up global options for rendering RMarkdown into HTML.
+knitr::opts_chunk$set(
+    warning=TRUE,
+    message=TRUE,
+    error=TRUE   # technically this means keep running after an error, but will now be caught by knitr::knit_hooks$set(error = ...)
+)
+
+# log file
+log_fn <- paste0(knitr::current_input(), '.log')
+
+# sets up the redirect of messages to log file
+knitr::knit_hooks$set(
+  message = function(x, options) {
+    cat(x, file = log_fn, append = TRUE)
+    return(x)
+  },
+  warning = function(x, options) {
+    cat(x, file = log_fn, append = TRUE)
+    return(x)
+  },
+  error = function(x, options) {
+    cat(x, file = log_fn, append = TRUE)
+    return(stop(x))
+  }
+)
+
+# append current run metadata
+message(paste0('\n', Sys.time()))
+message(paste0('Environment: ', Sys.which("R")))
+message(paste0('rmarkdown::render params: ', paste0(params, collapse=';')))
+```
