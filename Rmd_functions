@@ -38,11 +38,11 @@ log_fn <- paste0(knitr::current_input(), '.log')
 knitr::knit_hooks$set(
   message = function(x, options) {
     cat(x, file = log_fn, append = TRUE)
-    return(x)
+    return()
   },
   warning = function(x, options) {
     cat(x, file = log_fn, append = TRUE)
-    return(x)
+    return()
   },
   error = function(x, options) {
     cat(x, file = log_fn, append = TRUE)
@@ -53,5 +53,7 @@ knitr::knit_hooks$set(
 # append current run metadata
 message(paste0('\n', Sys.time()))
 message(paste0('Environment: ', Sys.which("R")))
-message(paste0('rmarkdown::render params: ', paste0(params, collapse=';')))
+if (exists("params") & !exists("params", mode='function')) {
+  message(paste0('rmarkdown::render params: ', paste0(params, collapse=';')))
+}
 ```
