@@ -1,7 +1,7 @@
 Short HOW-TO notes
 ==================
 
-These are not fully described tutorials, but quick notes I take as I go. In
+These are not fully described tutorials, but quick notes I took on the fly. In
 other words, this is what worked on my machine, this might not work for other
 setups.
 
